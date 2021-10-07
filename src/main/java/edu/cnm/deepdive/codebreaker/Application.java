@@ -28,10 +28,16 @@ public class Application {
       case 0:
         // Do nothing
     }
+
     repository = new GameRepository();
-    game = repository.startGame(pool, length);
+    startGame(pool, length);
 
   }
+
+  private void startGame(String pool, int length) throws IOException {
+    game = repository.startGame(pool, length);
+  }
+
   public static void main(String[] args) throws IOException {
     Application application = new Application(args);
     // TODO while code is not guessed:

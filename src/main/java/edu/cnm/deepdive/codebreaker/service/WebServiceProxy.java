@@ -16,7 +16,7 @@ public interface WebServiceProxy {
   @POST("codes")
   Call<Game> startGame(@Body Game game);
 
-  @POST("codes/{gameId/guesses")
+  @POST("codes/{gameId}/guesses")
   Call<Guess> submitGuess(@Body Guess guess, @Path("gameId") String gameID);
 
   static WebServiceProxy getInstance() {

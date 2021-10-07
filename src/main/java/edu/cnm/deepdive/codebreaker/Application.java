@@ -1,12 +1,39 @@
 package edu.cnm.deepdive.codebreaker;
 
 import edu.cnm.deepdive.codebreaker.model.Game;
+import edu.cnm.deepdive.codebreaker.service.GameRepository;
 import edu.cnm.deepdive.codebreaker.service.WebServiceProxy;
 import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class Application {
+
+  private static final String DEFUALT_POOL = "ABCDEF";
+  private static final int DEFUALT_LENGTH = 3;
+
+  private final GameRepository repository;
+  private final String pool;
+  private final int length;
+  private final Game game;
+
+  private Application(String[] args) {
+    if (args.length > 0) {
+      pool = args[0];
+      if (args.length > 1) {
+        length = Integer.parseInt(args[1]);
+      } else {
+        length = DEFUALT_LENGTH;
+      }
+    } else {
+      pool = DEFUALT_POOL;
+      length = DEFUALT_LENGTH;
+      }
+
+    repository = new GameRepository();
+    game = repository.startGame(pool, length);
+
+  }
 
   public static void main(String[] args) throws IOException {
     // TODO read command-line arguments for pool & length.
@@ -20,17 +47,4 @@ public class Application {
     // 3. Display correct results.
   }
 
-  private static Game startGame(String pool, int length) throws IOException {
-    WebServiceProxy proxy = WebServiceProxy.getInstance();
-    Game game = new Game();
-    game.setPool(pool);
-    game.setLength(length);
-    Call<Game> call = proxy.startGame(game);
-    Response<Game> response = call.execute();
-    if (!response.isSuccessful()) {
-      throw new RuntimeException(response.message());
-    }
-    return response.body();
-
-  }
 }

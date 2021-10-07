@@ -54,10 +54,7 @@ public class Application {
       application.printGuessResults(guess);
       solved = guess.isSolution();
     } while (!solved);
-    // TODO while code is not guessed:
-    // 1. Read guess from user input
-    // 2. Submit guess to codebreaker service
-    // 3. Display correct results.
+
   }
 
   private void startGame() throws IOException, BadGameException {

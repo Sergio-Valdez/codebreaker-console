@@ -22,7 +22,7 @@ public class Application {
 
   private Game game;
 
-  private Application(String[] args) throws IOException {
+  private Application(String[] args) {
     String pool = DEFAULT_POOL;
     int length = DEFAULT_LENGTH;
     switch (args.length) {
@@ -44,16 +44,26 @@ public class Application {
     scanner = new Scanner(System.in);
   }
 
-  public static void main(String[] args) throws IOException {
-    Application application = new Application(args);
-    application.startGame();
-    boolean solved;
-    do {
-      String text = application.getGuess();
-      Guess guess = application.submitGuess(text);
-      application.printGuessResults(guess);
-      solved = guess.isSolution();
-    } while (!solved);
+  public static void main(String[] args) {
+    try {
+      Application application = new Application(args);
+      application.startGame();
+      boolean solved = false;
+      do {
+        try {
+          String text = application.getGuess();
+          Guess guess = application.submitGuess(text);
+          application.printGuessResults(guess);
+          solved = guess.isSolution();
+        } catch (BadGuessException e) {
+          System.out.println("Invalid guess. Please try again.");
+        }
+      } while (!solved);
+    } catch (IOException e) {
+      System.out.println("Unable to connect to Codebreaker service.");
+    } catch (BadGameException e) {
+      System.out.println("Invalid pool or code length");
+    }
 
   }
 

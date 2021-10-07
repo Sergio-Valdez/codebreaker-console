@@ -30,7 +30,7 @@ public class Application {
     }
 
     repository = new GameRepository();
-    startGame(pool, length);
+
 
   }
 

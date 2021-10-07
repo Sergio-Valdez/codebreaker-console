@@ -34,7 +34,15 @@ public class GameRepository {
         .submitGuess(guess, game.getId())
         .execute();
     if (!response.isSuccessful()) {
+    throw new BadGuessException(response.message());
+    }
+    return response.body();
+  }
 
+  public class BadGuessException extends IllegalArgumentException {
+
+    public BadGuessException(String message) {
+      super(message);
     }
   }
 }
